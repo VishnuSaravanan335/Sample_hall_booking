@@ -98,7 +98,7 @@ export default function ITReceptionDashboard({ user, activeTab }: ITReceptionDas
   const handleAddItem = async () => {
     if (!newItem.name) return;
     try {
-      await mockApi.addInventoryItem({ ...newItem, department: user.role });
+      await mockApi.addInventoryItem({ ...newItem, department: user.role as 'IT' | 'Reception' });
       setIsAddingItem(false);
       setNewItem({ name: '', stock_qty: 0 });
       fetchAllInventory();
@@ -422,7 +422,7 @@ export default function ITReceptionDashboard({ user, activeTab }: ITReceptionDas
               </h2>
               <button 
                 onClick={() => setIsAddingItem(true)}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 hover:opacity-90 transition-all"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 hover:opacity-90 transition-all"
               >
                 <Plus size={20} /> Add New Item
               </button>
@@ -824,7 +824,7 @@ export default function ITReceptionDashboard({ user, activeTab }: ITReceptionDas
                       fetchPendingReturns();
                     }
                   }}
-                  className={`px-10 py-4 text-white rounded-2xl font-bold shadow-xl transition-all active:scale-[0.98] ${isReturnMode ? 'bg-gradient-to-r from-amber-500 to-orange-500 shadow-amber-500/20 hover:from-amber-600 hover:to-orange-600' : 'bg-gradient-to-r from-blue-600 to-emerald-600 shadow-emerald-500/20 hover:from-blue-700 hover:to-emerald-700'}`}
+                  className={`px-10 py-4 text-white rounded-2xl font-bold shadow-xl transition-all active:scale-[0.98] ${isReturnMode ? 'bg-gradient-to-r from-amber-500 to-orange-500 shadow-amber-500/20 hover:from-amber-600 hover:to-orange-600' : 'bg-gradient-to-r from-black via-emerald-600 to-blue-600 shadow-emerald-500/20 hover:from-blue-700 hover:to-emerald-700'}`}
                 >
                   {isReturnMode ? 'Complete Return' : (selectedEvent.status === 'Approved' ? 'Update Allocation' : 'Save & Approve')}
                 </button>

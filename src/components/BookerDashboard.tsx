@@ -17,7 +17,8 @@ import {
   AlertCircle,
   ChevronLeft,
   X,
-  Info
+  Info,
+  Lock
 } from 'lucide-react';
 
 interface BookerDashboardProps {
@@ -459,13 +460,13 @@ export default function BookerDashboard({ user, activeTab, isLocked }: BookerDas
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: `${(phase - 1) * 50}%` }}
-            className="h-full bg-gradient-to-r from-blue-600 to-emerald-600"
+            className="h-full bg-gradient-to-r from-black via-emerald-600 to-blue-600"
           />
         </div>
         {[1, 2, 3].map((s) => (
           <div key={s} className="relative z-10 flex flex-col items-center">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${
-              phase >= s ? 'bg-gradient-to-r from-blue-600 to-emerald-600 text-white shadow-lg shadow-blue-600/20' : 'bg-white text-slate-400 border-2 border-slate-200'
+              phase >= s ? 'bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white shadow-lg shadow-blue-600/20' : 'bg-white text-slate-400 border-2 border-slate-200'
             }`}>
               {phase > s ? <CheckCircle size={20} /> : s}
             </div>
@@ -629,7 +630,7 @@ export default function BookerDashboard({ user, activeTab, isLocked }: BookerDas
               )}
 
               <div className="col-span-2 pt-4">
-                <button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-emerald-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20">
+                <button type="submit" className="w-full bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20">
                   Next Step: Hall Selection <ChevronRight size={20} />
                 </button>
               </div>
@@ -746,7 +747,7 @@ export default function BookerDashboard({ user, activeTab, isLocked }: BookerDas
               <button 
                 onClick={handlePhase2Submit}
                 disabled={!selectedHall}
-                className="flex-[2] bg-gradient-to-r from-blue-600 to-emerald-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition-all disabled:opacity-50 shadow-lg shadow-blue-600/20"
+                className="flex-[2] bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition-all disabled:opacity-50 shadow-lg shadow-blue-600/20"
               >
                 Confirm Hall & Continue
               </button>
@@ -871,7 +872,7 @@ export default function BookerDashboard({ user, activeTab, isLocked }: BookerDas
                     <button 
                       onClick={handleFinalSubmit}
                       disabled={loading}
-                      className="w-full bg-gradient-to-r from-blue-600 to-emerald-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-xl shadow-blue-600/20 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-xl shadow-blue-600/20 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                       {loading ? 'Submitting...' : 'Submit Proposal'}
                     </button>

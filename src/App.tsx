@@ -54,7 +54,7 @@ export default function App() {
         <div className="max-w-md w-full bg-white p-12 rounded-[3rem] border border-slate-200 shadow-xl text-center">
           <div className="w-64 h-32 mx-auto mb-8 flex items-center justify-center bg-white rounded-2xl p-4 shadow-lg border border-slate-100">
             <img 
-              src="https://i.postimg.cc/t4SNTBXV/only-KPR-Color.png" 
+              src="https://kprcas.ac.in/file/wp-content/uploads/2022/01/Logo.png" 
               alt="KPRCAS Logo" 
               className="max-w-full max-h-full object-contain"
               referrerPolicy="no-referrer"

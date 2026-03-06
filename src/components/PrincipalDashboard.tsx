@@ -366,7 +366,7 @@ export default function PrincipalDashboard({ user, activeTab }: PrincipalDashboa
                     </button>
                     <button 
                       onClick={() => handleApprove('Approved')}
-                      className="flex-1 py-4 bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-2xl font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2"
+                      className="flex-1 py-4 bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white rounded-2xl font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2"
                     >
                       <CheckCircle size={20} /> Approve Event
                     </button>

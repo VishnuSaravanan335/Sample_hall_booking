@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { User, KPREvent, Hall } from '../types';
+import { User, KPREvent, Hall, Role } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 import { mockApi } from '../services/mockApi';
-import { 
-  Shield, 
-  Zap, 
-  Map as MapIcon, 
-  Users as UsersIcon, 
-  CheckCircle, 
-  XCircle, 
-  Lock, 
+import {
+  Shield,
+  Zap,
+  Map as MapIcon,
+  Users as UsersIcon,
+  CheckCircle,
+  XCircle,
+  Lock,
   Unlock,
   Trash2,
   Plus,
@@ -31,10 +31,10 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
   const [halls, setHalls] = useState<Hall[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [settings, setSettings] = useState({ portal_locked: '0' });
-  
+
   // Forms
-  const [newUser, setNewUser] = useState({ username: '', password: '', role: 'Booker', department: '' });
-  const [newHall, setNewHall] = useState({ name: '', capacity: 0, type: 'Hall' });
+  const [newUser, setNewUser] = useState({ username: '', password: '', role: 'Booker' as Role, department: '' });
+  const [newHall, setNewHall] = useState({ name: '', capacity: 0, type: 'Hall', is_locked: 0 });
 
   const getHallImage = (hallName: string) => {
     if (hallName.toLowerCase().includes('seminar')) {
@@ -107,7 +107,7 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
     e.preventDefault();
     try {
       await mockApi.addUser(newUser);
-      setNewUser({ username: '', password: '', role: 'Booker', department: '' });
+      setNewUser({ username: '', password: '', role: 'Booker' as Role, department: '' });
       fetchData();
     } catch (err) {
       console.error('Add user error:', err);
@@ -118,7 +118,7 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
     e.preventDefault();
     try {
       await mockApi.addHall(newHall);
-      setNewHall({ name: '', capacity: 0, type: 'Hall' });
+      setNewHall({ name: '', capacity: 0, type: 'Hall', is_locked: 0 });
       fetchData();
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to add hall');
@@ -175,7 +175,7 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-4">
                 <LayoutDashboard className="text-blue-500" size={32} /> Admin Dashboard
               </h2>
-              <button 
+              <button
                 onClick={fetchData}
                 className="p-3 bg-white border border-slate-200 text-slate-400 hover:text-blue-500 rounded-2xl transition-all shadow-sm"
                 title="Refresh Data"
@@ -206,20 +206,20 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <button 
+                    <button
                       onClick={() => handleDeleteEvent(event.id)}
                       className="p-3 bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-100 hover:bg-red-50 rounded-xl transition-all shadow-sm"
                       title="Delete Event"
                     >
                       <Trash2 size={18} />
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleApproveProposal(event.id, 'Declined')}
                       className="flex-1 py-2 bg-red-50 text-red-600 rounded-xl font-bold text-sm hover:bg-red-100 transition-all"
                     >
                       Decline
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleApproveProposal(event.id, 'Pending_IT_Reception')}
                       className="flex-1 py-2 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all"
                     >
@@ -258,7 +258,7 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                         </span>
                       </td>
                       <td className="px-8 py-6 text-right">
-                        <button 
+                        <button
                           onClick={() => handleForceApproval(event.id)}
                           className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl font-bold text-xs hover:bg-emerald-100 transition-all flex items-center gap-2 ml-auto"
                         >
@@ -283,36 +283,36 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                 <form onSubmit={handleAddHall} className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Hall Name</label>
-                    <input 
+                    <input
                       required
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
                       value={newHall.name}
-                      onChange={e => setNewHall({...newHall, name: e.target.value})}
+                      onChange={e => setNewHall({ ...newHall, name: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Capacity</label>
-                    <input 
+                    <input
                       required
                       type="number"
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
                       value={newHall.capacity || ''}
-                      onChange={e => setNewHall({...newHall, capacity: parseInt(e.target.value) || 0})}
+                      onChange={e => setNewHall({ ...newHall, capacity: parseInt(e.target.value) || 0 })}
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Type</label>
-                    <select 
+                    <select
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
                       value={newHall.type}
-                      onChange={e => setNewHall({...newHall, type: e.target.value})}
+                      onChange={e => setNewHall({ ...newHall, type: e.target.value })}
                     >
                       <option value="Hall">Hall</option>
                       <option value="Auditorium">Auditorium</option>
                       <option value="OAT">OAT</option>
                     </select>
                   </div>
-                  <button type="submit" className="w-full py-4 bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-emerald-700 transition-all shadow-lg shadow-emerald-500/20">
+                  <button type="submit" className="w-full py-4 bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-emerald-700 transition-all shadow-lg shadow-emerald-500/20">
                     Create Hall
                   </button>
                 </form>
@@ -323,26 +323,25 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                 {halls.map(hall => (
                   <div key={hall.id} className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                     <div className="w-full h-32 bg-slate-100 relative">
-                      <img 
-                        src={getHallImage(hall.name)} 
+                      <img
+                        src={getHallImage(hall.name)}
                         alt={hall.name}
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                       <div className="absolute top-4 right-4 flex gap-2">
-                        <button 
+                        <button
                           onClick={() => toggleHallLock(hall.id, hall.is_locked)}
-                          className={`p-2 rounded-xl transition-all shadow-sm border ${
-                            hall.is_locked 
-                              ? 'bg-red-500 text-white border-red-400 hover:bg-red-600' 
+                          className={`p-2 rounded-xl transition-all shadow-sm border ${hall.is_locked
+                              ? 'bg-red-500 text-white border-red-400 hover:bg-red-600'
                               : 'bg-emerald-500 text-white border-emerald-400 hover:bg-emerald-600'
-                          }`}
+                            }`}
                           title={hall.is_locked ? 'Unlock Hall' : 'Lock Hall'}
                         >
                           {hall.is_locked ? <Lock size={16} /> : <Unlock size={16} />}
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleDeleteHall(hall.id)}
                           className="p-2 bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-red-500 hover:border-red-400 rounded-xl transition-all shadow-sm"
                           title="Delete Hall"
@@ -380,29 +379,29 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                 <form onSubmit={handleAddUser} className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Username</label>
-                    <input 
+                    <input
                       required
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
                       value={newUser.username}
-                      onChange={e => setNewUser({...newUser, username: e.target.value})}
+                      onChange={e => setNewUser({ ...newUser, username: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Password</label>
-                    <input 
+                    <input
                       required
                       type="password"
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
                       value={newUser.password}
-                      onChange={e => setNewUser({...newUser, password: e.target.value})}
+                      onChange={e => setNewUser({ ...newUser, password: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Role</label>
-                    <select 
+                    <select
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
                       value={newUser.role}
-                      onChange={e => setNewUser({...newUser, role: e.target.value})}
+                      onChange={e => setNewUser({ ...newUser, role: e.target.value as Role })}
                     >
                       <option value="Booker">Booker</option>
                       <option value="IT">IT</option>
@@ -413,14 +412,14 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Department</label>
-                    <input 
+                    <input
                       required
                       className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
                       value={newUser.department}
-                      onChange={e => setNewUser({...newUser, department: e.target.value})}
+                      onChange={e => setNewUser({ ...newUser, department: e.target.value })}
                     />
                   </div>
-                  <button type="submit" className="w-full py-4 bg-gradient-to-r from-blue-600 to-emerald-600 text-white rounded-xl font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-600/20">
+                  <button type="submit" className="w-full py-4 bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white rounded-xl font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-600/20">
                     Create User
                   </button>
                 </form>
@@ -448,7 +447,7 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                         </td>
                         <td className="px-8 py-6 text-sm text-slate-500">{u.department}</td>
                         <td className="px-8 py-6 text-right">
-                          <button 
+                          <button
                             onClick={() => handleDeleteUser(u.id)}
                             className="p-2 text-red-400 hover:text-red-600 transition-colors"
                           >
@@ -488,11 +487,10 @@ export default function AdminDashboard({ user, activeTab }: AdminDashboardProps)
                       <p className="text-xs text-slate-500">Temporarily disable all bookings</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={togglePortalLock}
-                    className={`w-full sm:w-auto px-8 py-3 rounded-xl font-bold text-sm transition-all ${
-                      settings.portal_locked === '1' ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'bg-slate-200 text-slate-600'
-                    }`}
+                    className={`w-full sm:w-auto px-8 py-3 rounded-xl font-bold text-sm transition-all ${settings.portal_locked === '1' ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'bg-slate-200 text-slate-600'
+                      }`}
                   >
                     {settings.portal_locked === '1' ? 'LOCKED' : 'UNLOCK'}
                   </button>

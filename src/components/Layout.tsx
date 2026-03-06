@@ -62,19 +62,19 @@ export default function Layout({ user, onLogout, children, activeTab, setActiveT
 
   const SidebarContent = () => (
     <>
-      <div className="p-8 flex items-center gap-3">
-        <div className="w-24 h-24 flex items-center justify-center bg-white rounded-2xl p-2 shadow-lg border border-slate-100">
+      <div className={`flex items-center gap-3 transition-all ${isSidebarOpen || isMobileMenuOpen ? 'p-6' : 'p-4 justify-center'}`}>
+        <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-white rounded-xl p-1.5 shadow-lg border border-slate-100">
           <img 
-            src="https://kprcas.ac.in/wp-content/uploads/2022/01/KPRCAS-Logo.png" 
+            src="https://kprcas.ac.in/file/wp-content/uploads/2022/01/Logo.png" 
             alt="KPRCAS Logo" 
-            className="max-w-full max-h-full object-contain"
+            className="w-full h-full object-contain"
             referrerPolicy="no-referrer"
           />
         </div>
-        {(isSidebarOpen || isMobileMenuOpen) && <span className="font-black text-2xl tracking-tighter text-white">KPR HUB</span>}
+        {(isSidebarOpen || isMobileMenuOpen) && <span className="font-black text-xl tracking-tighter text-white whitespace-nowrap">KPR HUB</span>}
       </div>
 
-      <nav className="flex-1 px-4 space-y-1 mt-4">
+      <nav className={`flex-1 space-y-2 mt-2 overflow-y-auto no-scrollbar ${isSidebarOpen || isMobileMenuOpen ? 'px-4' : 'px-3'}`}>
         {filteredMenu.map((item) => (
           <button
             key={item.label}
@@ -82,24 +82,26 @@ export default function Layout({ user, onLogout, children, activeTab, setActiveT
               setActiveTab(item.label);
               setIsMobileMenuOpen(false);
             }}
-            className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all group ${
+            className={`w-full flex items-center transition-all group ${isSidebarOpen || isMobileMenuOpen ? 'gap-4 p-4 rounded-2xl' : 'justify-center p-3 rounded-xl'} ${
               activeTab === item.label 
-                ? 'bg-gradient-to-r from-blue-600 to-emerald-600 text-white shadow-lg shadow-blue-600/20' 
+                ? 'bg-gradient-to-r from-black via-emerald-600 to-blue-600 text-white shadow-lg shadow-blue-600/20' 
                 : 'text-slate-400 hover:bg-white/5 hover:text-white'
             }`}
+            title={!(isSidebarOpen || isMobileMenuOpen) ? item.label : undefined}
           >
-            <item.icon size={20} className={activeTab === item.label ? 'text-white' : 'group-hover:text-emerald-400 transition-colors'} />
+            <item.icon size={22} className={`shrink-0 ${activeTab === item.label ? 'text-white' : 'group-hover:text-emerald-400 transition-colors'}`} />
             {(isSidebarOpen || isMobileMenuOpen) && <span className="text-sm font-bold tracking-wide">{item.label}</span>}
           </button>
         ))}
       </nav>
 
-      <div className="p-6 border-t border-slate-100">
+      <div className={`mt-auto border-t border-slate-800/50 ${isSidebarOpen || isMobileMenuOpen ? 'p-6' : 'p-4'}`}>
         <button 
           onClick={onLogout}
-          className="w-full flex items-center gap-4 p-3.5 rounded-xl hover:bg-red-50 text-slate-500 hover:text-red-600 transition-all"
+          className={`w-full flex items-center transition-all group text-slate-400 hover:text-red-400 hover:bg-white/5 ${isSidebarOpen || isMobileMenuOpen ? 'gap-4 p-3.5 rounded-xl' : 'justify-center p-3 rounded-xl'}`}
+          title={!(isSidebarOpen || isMobileMenuOpen) ? "Logout" : undefined}
         >
-          <LogOut size={20} />
+          <LogOut size={22} className="shrink-0 group-hover:text-red-400 transition-colors" />
           {(isSidebarOpen || isMobileMenuOpen) && <span className="text-sm font-semibold">Logout</span>}
         </button>
       </div>
@@ -112,7 +114,7 @@ export default function Layout({ user, onLogout, children, activeTab, setActiveT
       <motion.aside 
         initial={false}
         animate={{ width: isSidebarOpen ? 280 : 80 }}
-        className="hidden lg:flex bg-gradient-to-b from-slate-900 via-slate-900 to-blue-950 flex-col shadow-2xl z-20"
+        className="hidden lg:flex bg-gradient-to-b from-black via-emerald-950/20 to-blue-950 flex-col shadow-2xl z-20"
       >
         <SidebarContent />
       </motion.aside>
@@ -132,7 +134,7 @@ export default function Layout({ user, onLogout, children, activeTab, setActiveT
               initial={{ x: -280 }}
               animate={{ x: 0 }}
               exit={{ x: -280 }}
-              className="fixed inset-y-0 left-0 w-[280px] bg-gradient-to-b from-slate-900 to-blue-950 flex flex-col z-50 lg:hidden shadow-2xl"
+              className="fixed inset-y-0 left-0 w-[280px] bg-gradient-to-b from-black via-emerald-950/20 to-blue-950 flex flex-col z-50 lg:hidden shadow-2xl"
             >
               <SidebarContent />
             </motion.aside>
@@ -143,7 +145,7 @@ export default function Layout({ user, onLogout, children, activeTab, setActiveT
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-10 z-10 relative">
-          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-600 to-emerald-600 opacity-50" />
+          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-black via-emerald-600 to-blue-600 opacity-50" />
           <div className="flex items-center gap-4 lg:gap-6">
             <button 
               onClick={() => {
